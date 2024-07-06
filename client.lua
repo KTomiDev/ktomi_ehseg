@@ -1,6 +1,8 @@
 local fasz = false
 
-
+local ehseg = 50000 -- Ha ennél az értéknél kisebb az éhséged jelez
+local szomj = 50000 -- Ha ennél az értéknél kisebb a(z) szomjusagod jelez
+local stressz = 50000  -- Ha ennél az értéknél kisebb a(z) stresszed jelez
 
 --szukseges: esx_stauts
 
@@ -13,7 +15,7 @@ Citizen.CreateThread(function()
         Citizen.Wait(20000) -- mennyi időnkent checkelje ha nagyon leszeved fos lesz az effekt
       
         TriggerEvent('esx_status:getStatus', 'hunger', function(status)
-            if status.val < 50000 then
+            if status.val < ehseg then
                 local plyPed = GetPlayerPed(-1)
                  exports['okokNotify']:Alert("Rendszer", "Éhes vagy!", 9000, 'warning')
       
@@ -23,14 +25,14 @@ Citizen.CreateThread(function()
         end)
 
         TriggerEvent('esx_status:getStatus', 'thirst', function(status)
-            if status.val < 50000 then
+            if status.val < szomj then
                 local plyPed = GetPlayerPed(-1)
                 exports['okokNotify']:Alert("Rendszer", "Szomjas vagy!", 9000, 'warning')          
             end
         end)
 
         TriggerEvent('esx_status:getStatus', 'stress', function(status)
-            if status.val > 100000 then
+            if status.val > stressz then
                 exports['okokNotify']:Alert("Rendszer", "Stresszes vagy!", 6000, 'warning')
             end
         end)
